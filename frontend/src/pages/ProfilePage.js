@@ -46,17 +46,14 @@ function InfluencerProfilePage() {
         interests,
         profilePicture
       }, { withCredentials: true });
-  
+
       alert('Profile updated!');
-      
-      // Refetch from DB so the latest values are used everywhere
+
       const refreshed = await axios.get('http://localhost:5000/api/me', {
         withCredentials: true
       });
       setUser(refreshed.data);
-      
-      
-      // Keep values in the form updated as well
+
       setUser(prev => ({
         ...prev,
         name,
@@ -64,42 +61,71 @@ function InfluencerProfilePage() {
         interests,
         profilePicture
       }));
-  
+
     } catch (err) {
       alert('Error saving profile');
       console.error(err);
     }
   };
-  
+
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
-      <h2>Profile Page</h2>
+    <div style={{
+      padding: '40px',
+      maxWidth: '800px',
+      margin: '60px auto',
+      backgroundColor: '#CCDBDC',
+      borderRadius: '10px',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+    }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '25px' }}>Profile Page</h2>
       {user ? (
         <>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
             <div style={{ flexGrow: 1 }}>
               <h3>{name || user.email}</h3>
               <p><strong>Email:</strong> {user.email}</p>
             </div>
-            <div>
-              <input type="file" accept="image/*" onChange={handleProfilePictureChange} />
+            <div style={{ textAlign: 'center' }}>
               <div style={{
                 width: '100px', height: '100px', borderRadius: '50%',
                 backgroundColor: '#ccc', backgroundImage: `url(${profilePicture})`,
-                backgroundSize: 'cover', backgroundPosition: 'center', marginTop: '10px'
+                backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: '10px'
               }} />
+              <label style={{
+                display: 'block',
+                cursor: 'pointer',
+                backgroundColor: '#B5BA72',
+                color: 'white',
+                padding: '6px 12px',
+                borderRadius: '5px',
+                fontSize: '14px'
+              }}>
+                Add a Profile Picture
+                <input type="file" accept="image/*" onChange={handleProfilePictureChange} style={{ display: 'none' }} />
+              </label>
             </div>
           </div>
 
-          <div style={{ marginBottom: '15px' }}>
-            <label><strong>Name:</strong></label><br />
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{ width: '100%', padding: '8px' }}
-            />
-          </div>
+          {[
+            { label: 'Name', value: name, set: setName, type: 'text' },
+            { label: 'Interests (comma-separated)', value: interests, set: setInterests, type: 'text' }
+          ].map((field, idx) => (
+            <div key={idx} style={{ marginBottom: '15px' }}>
+              <label><strong>{field.label}:</strong></label><br />
+              <input
+                type={field.type}
+                value={field.value}
+                onChange={(e) => field.set(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+          ))}
 
           <div style={{ marginBottom: '15px' }}>
             <label><strong>Bio:</strong></label><br />
@@ -107,17 +133,13 @@ function InfluencerProfilePage() {
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               rows="4"
-              style={{ width: '100%' }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '15px' }}>
-            <label><strong>Interests (comma-separated):</strong></label><br />
-            <input
-              type="text"
-              value={interests}
-              onChange={(e) => setInterests(e.target.value)}
-              style={{ width: '100%' }}
+              style={{
+                width: '100%',
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                boxSizing: 'border-box'
+              }}
             />
           </div>
 
@@ -126,16 +148,37 @@ function InfluencerProfilePage() {
             <input type="file" accept="image/*" multiple onChange={handleImageUpload} /><br />
             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
               {images.map((img, i) => (
-                <img key={i} src={img} alt="extra" style={{ width: '100px', height: '100px', marginRight: '10px', objectFit: 'cover' }} />
+                <img key={i} src={img} alt="extra" style={{
+                  width: '100px',
+                  height: '100px',
+                  marginRight: '10px',
+                  objectFit: 'cover',
+                  borderRadius: '6px'
+                }} />
               ))}
             </div>
           </div>
 
-          <button onClick={handleSave} style={{ padding: '10px 20px', backgroundColor: '#B5BA72', color: 'white', border: 'none', borderRadius: '5px' }}>
+          <button onClick={handleSave} style={{
+            padding: '10px 20px',
+            backgroundColor: '#B5BA72',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}>
             Save Changes
           </button>
 
-          <button onClick={() => navigate('/influencer/dashboard')} style={{ marginLeft: '10px', padding: '10px 20px' }}>
+          <button onClick={() => navigate('/influencer/dashboard')} style={{
+            marginLeft: '10px',
+            padding: '10px 20px',
+            backgroundColor: '#A37B73',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}>
             Back to Dashboard
           </button>
         </>
