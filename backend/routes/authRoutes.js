@@ -36,18 +36,45 @@ router.post('/login', async (req, res) => {
   res.send({ message: 'Login successful', role: user.role });
 });
 
-// GET /api/me - return logged-in user info
 router.get('/me', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).send('Not logged in');
   }
 
   const user = await User.findById(req.session.userId);
-  if (!user) {
-    return res.status(404).send('User not found');
-  }
 
-  res.json({ email: user.email, role: user.role });
+  if (!user) return res.status(404).send('User not found');
+
+  res.json({
+    email: user.email,
+    role: user.role,
+    name: user.name || '',
+    bio: user.bio || '',
+    interests: user.interests || '',
+    profilePicture: user.profilePicture || '',
+    additionalImages: user.additionalImages || []
+  });
+});
+
+
+// PUT /api/profile - Update user profile
+router.put('/profile', async (req, res) => {
+  if (!req.session.userId) return res.status(401).send('Unauthorized');
+
+  const updates = {
+    name: req.body.name,
+    bio: req.body.bio,
+    interests: req.body.interests,
+    profilePicture: req.body.profilePicture,
+    additionalImages: req.body.additionalImages
+  };
+
+  try {
+    const user = await User.findByIdAndUpdate(req.session.userId, updates, { new: true });
+    res.json(user);
+  } catch (err) {
+    res.status(500).send('Error updating profile');
+  }
 });
 
 // POST /api/logout
@@ -57,6 +84,5 @@ router.post('/logout', (req, res) => {
     res.send('Logged out');
   });
 });
-
 
 module.exports = router;

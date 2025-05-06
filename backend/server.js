@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 const campaignRoutes = require('./routes/campaignRoutes');
 const authRoutes = require('./routes/authRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(session({
 // Routes
 app.use('/api', authRoutes);
 app.use('/api/campaigns', campaignRoutes);
+app.use('/api/applications', applicationRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

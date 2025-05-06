@@ -1,0 +1,48 @@
+.create-campaign-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .create-campaign-form {
+    display: inline-block;
+    text-align: left;
+    padding: 20px;
+    background-color: #CCDBDC;
+    border-radius: 8px;
+    width: 300px;
+  }
+  
+  .create-campaign-form input,
+  .create-campaign-form textarea {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  
+  .create-campaign-form button {
+    background-color: #B5BA72;
+    color: #333;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    font-weight: bold;
+  }
+  
+  .create-campaign-form button:hover {
+    background-color: #A37B73;
+    color: white;
+  }
+  
+  .create-campaign-form p {
+    color: #A37B73;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  

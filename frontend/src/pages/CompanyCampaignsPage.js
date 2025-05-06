@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './CompanyCampaignsPage.css';
 
 function CompanyCampaignsPage() {
   const [campaigns, setCampaigns] = useState([]);
@@ -42,7 +43,7 @@ function CompanyCampaignsPage() {
   };
 
   return (
-    <div>
+    <div className="company-campaigns-container">
       <h2>My Campaigns</h2>
       {message && <p style={{ color: message.includes('deleted') ? 'green' : 'red' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -50,29 +51,21 @@ function CompanyCampaignsPage() {
         <p>No campaigns created yet.</p>
       ) : (
         campaigns.map((c) => (
-          <div key={c._id} style={{
-            border: '1px solid #ccc',
-            padding: '15px',
-            margin: '10px 0',
-            borderRadius: '8px'
-          }}>
+          <div key={c._id} className="campaign-card">
             <h3>{c.title}</h3>
             <p><strong>Budget:</strong> ${c.budget}</p>
             <p><strong>Dates:</strong> {new Date(c.startDate).toLocaleDateString()} – {new Date(c.endDate).toLocaleDateString()}</p>
-            <button onClick={() => navigate(`/company/campaigns/${c._id}`)}>
+            <button onClick={() => navigate(`/company/campaigns/${c._id}`)} className="view-btn">
               View Applicants
             </button>
-            <button
-              onClick={() => handleDelete(c._id)}
-              style={{ marginLeft: '10px', backgroundColor: '#f44336', color: '#fff' }}
-            >
+            <button onClick={() => handleDelete(c._id)} className="delete-btn">
               Delete Campaign
             </button>
           </div>
         ))
       )}
     </div>
-  );
+  );  
 }
 
 export default CompanyCampaignsPage;

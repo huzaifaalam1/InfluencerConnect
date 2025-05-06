@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './CreateCampaign.css';
 
 function CreateCampaignPage() {
   const [title, setTitle] = useState('');
@@ -35,48 +36,20 @@ function CreateCampaignPage() {
     }
   };
   
-
   return (
-    <div>
+    <div className="create-campaign-container">
       <h2>Create a New Campaign</h2>
       {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Campaign Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        /><br />
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        /><br />
-        <input
-          type="number"
-          placeholder="Budget ($)"
-          value={budget}
-          onChange={(e) => setBudget(e.target.value)}
-          required
-        /><br />
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          required
-        /><br />
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          required
-        /><br />
+      <form onSubmit={handleSubmit} className="create-campaign-form">
+        <input type="text" placeholder="Campaign Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <input type="number" placeholder="Budget ($)" value={budget} onChange={(e) => setBudget(e.target.value)} required />
+        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
         <button type="submit">Create Campaign</button>
       </form>
     </div>
-  );
+  );  
 }
 
 export default CreateCampaignPage;
