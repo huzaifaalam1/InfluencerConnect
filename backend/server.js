@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const cors = require('cors');
 require('dotenv').config();
-
+const campaignRoutes = require('./routes/campaignRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
@@ -31,6 +31,7 @@ app.use(session({
 
 // Routes
 app.use('/api', authRoutes);
+app.use('/api/campaigns', campaignRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

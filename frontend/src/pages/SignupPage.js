@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './SignupPage.css'; // ✅ Import styling
 
 function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('influencer');
-  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -18,43 +18,36 @@ function SignupPage() {
         { email, password, role },
         { withCredentials: true }
       );
-
-      setMessage('Account created successfully!');
-      setError('');
-      setTimeout(() => navigate('/'), 1500); // Redirect to login
+      navigate('/');
     } catch (err) {
-      setError('Signup failed. User may already exist.');
-      setMessage('');
+      setError('Signup failed. Email may already be in use.');
     }
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+    <div className="signup-container">
+      <h2>Signup</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSignup}>
+
+      <form onSubmit={handleSignup} className="signup-form">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        /><br />
-
+        />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        /><br />
-
+        />
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="influencer">Influencer</option>
           <option value="company">Company</option>
-        </select><br />
-
+        </select>
         <button type="submit">Sign Up</button>
       </form>
     </div>

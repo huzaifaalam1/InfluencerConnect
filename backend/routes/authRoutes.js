@@ -36,4 +36,27 @@ router.post('/login', async (req, res) => {
   res.send({ message: 'Login successful', role: user.role });
 });
 
+// GET /api/me - return logged-in user info
+router.get('/me', async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).send('Not logged in');
+  }
+
+  const user = await User.findById(req.session.userId);
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+
+  res.json({ email: user.email, role: user.role });
+});
+
+// POST /api/logout
+router.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid');
+    res.send('Logged out');
+  });
+});
+
+
 module.exports = router;
